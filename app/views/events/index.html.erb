@@ -1,0 +1,39 @@
+<div class="center jumbotron">
+    <h1>Liste de tous les évènements</h1>
+</div>
+
+<% if flash[:success] %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong><%= flash[:success] %></strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% end %>
+
+<% if flash[:alert] %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong><%= flash[:alert] %></strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" >
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+<% end %>
+
+
+<div class=" mt-5 p-5 offset-lg-2 col-lg-8 shadow">
+    <div class="list-group">
+        <% @events.each do |e| %>
+            <a href="<%= event_show_path(e.id) %>" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1"><b><%= e.place %></b></h5>
+                    <small><%= Date.parse(e.date.to_s).strftime('%a %d %b %Y') %></small>
+                    <h5 class="mb-1"><b><%= e.price %> eur</b></h5>
+                </div>
+                <p class="mb-1">
+                    <%= e.description %>
+                </p>
+            </a>
+        <% end %>
+    </div>
+</div>

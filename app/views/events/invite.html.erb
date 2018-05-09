@@ -1,0 +1,12 @@
+<div class="center jumbotron"> 
+    <h1>Inviter un potos !</h1> 
+</div> 
+<div class="bg-light mt-5 p-5 offset-lg-2 col-lg-8 shadow"> 
+    <%= form_tag share_invite_path, method: "post" do %> 
+        <%= hidden_field_tag 'event', @event.id %> 
+            <div class="form-group"> 
+                <label for="potos">Liste des amis</label> <%= select_tag "potos", options_for_select(@potos), class: 'form-control' %> 
+            </div> 
+        <%= submit_tag "Envoyer", class: 'btn btn-primary' %> 
+    <% end %> 
+</div>

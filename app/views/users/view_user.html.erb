@@ -1,0 +1,61 @@
+<div class="center jumbotron"> 
+    <h1>la liste des évenements auquel <%= @user.email %> participe</h1> 
+</div> 
+<div class="shadow mt-5 p-5 bg-light"> 
+    <table class="table table-striped table-dark"> 
+        <thead> 
+            <tr class="bg-danger"> 
+                <th scope="col">
+                    #
+                </th> 
+                <th scope="col">Place</th> 
+                <th scope="col">Description</th> 
+                <th scope="col">Date</th> 
+                <th scope="col"></th> 
+            </tr> 
+            </thead> 
+            <tbody> 
+                <% @events.each do |e| %> 
+                    <tr> <th scope="row"><%= e.id%></th> 
+                    <td><%= e.place %></td> 
+                    <td><%= e.description %></td> 
+                    <td><%= Date.parse(e.date.to_s).strftime('%a %d %b %Y') %></td> 
+                    <td> <%= link_to "Voir", '', class: 'btn btn-info' %> 
+                        <% 
+                            i = 0 
+                            @attendees.each do |a| 
+                                if a.id == current_user.id 
+                                    i += 1 
+                                end 
+                            end 
+                            if i > 0 
+                        %> 
+                                <%= link_to "Vous êtes déjà inscrit", '#', class: "btn btn-info disabled" %> 
+                            <% else %> 
+                                <%= form_tag suscribe_path do %>
+                                    <article>
+                                    <% if flash[:error].present? %>
+                                        <div id="error_explanation">
+                                        <p><%= flash[:error] %></p>
+                                        </div>
+                                    <% end %>
+                                    <label class="amount">
+                                        <span>Participation : <%= e.price.to_f/100 %> eur</span>
+                                    </label>
+                                    </article>
+                                
+                                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                                            data-description="A month's subscription"
+                                            data-amount="500"
+                                            data-currency="eur"
+                                            data-locale="auto"></script>
+                                <% end %> 
+                            <% end %> 
+                            <!-- <%= link_to "Inviter un potos", invite_path(e.id), class: "btn btn-warning" %> -->
+                    </td> 
+                    </tr> 
+                <% end %> 
+            </tbody> 
+        </table> 
+    </div>

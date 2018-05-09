@@ -1,0 +1,63 @@
+
+<div class="center jumbotron"> 
+    <h1>creator: <%= @creator.email %></h1> 
+    <h3> Place: <em><%= @event.place %></em> 
+    </h3> <p><%= @event.description %></p>
+    <small><%= Date.parse(@event.date.to_s).strftime('%a %d %b %Y') %></small><br> 
+    <%= link_to "Retour", home_path, class: "btn btn-lg btn-success" %> 
+    <% 
+        i = 0 
+        @attendees.each do |a| 
+            if a.id == current_user.id 
+                i += 1 
+            end 
+        end 
+        if i > 0 
+    %> 
+            <%= link_to "Vous êtes déjà inscrit", '#', class: "btn btn-lg btn-info disabled" %> 
+        <%else%> 
+
+            <%= form_tag suscribe_path do %>
+                <article>
+                <% if flash[:error].present? %>
+                    <div id="error_explanation">
+                    <p><%= flash[:error] %></p>
+                    </div>
+                <% end %>
+                <label class="amount">
+                    <span>Participation: <%= @event.price.to_f/100 %> eur</span>
+                </label>
+                </article>
+            
+                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                        data-description="A month's subscription"
+                        data-amount="500"
+                        data-currency="eur"
+                        data-locale="auto"></script>
+            <% end %>
+
+        <%end%> 
+    
+</div> 
+<div class="shadow mt-5 p-5 bg-light"> 
+    <table class="table table-striped table-dark"> 
+        <thead> 
+            <tr class="bg-primary"> 
+                <th scope="col">
+                    #
+                </th> 
+                <th scope="col">Invités</th> 
+                <th scope="col"></th> 
+            </tr> 
+        </thead> 
+        <tbody>  
+            <% @attendees.each do |a| %> 
+                <tr> 
+                    <th scope="row"><%= a.id%></th> 
+                    <td><%= a.email %></td> 
+                    <td><%= link_to "Voir", user_show_path(a.id), class: 'btn btn-info' %></td> 
+                </tr> <% end %> 
+        </tbody> 
+    </table> 
+</div>

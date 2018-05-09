@@ -1,0 +1,41 @@
+<div class="center jumbotron"> 
+    <h1>User: <%= current_user.email %></h1> 
+    <%= link_to "Retour au liste des evenement", home_path, class: "btn btn-lg btn-success" %> 
+</div> 
+<% if flash[:success] %> 
+    <div class="alert alert-success alert-dismissible fade show" role="alert"> 
+        <strong><%= flash[:success] %></strong> 
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" > 
+            <span aria-hidden="true">&times;</span> 
+        </button> 
+    </div> 
+<% end %> 
+<div class="shadow mt-5 p-5 bg-light"> 
+    <h3>Listes des evenements crees</h3> 
+    <table class="table table-striped table-dark"> 
+        <thead> 
+            <tr class="bg-danger"> 
+                <th scope="col">
+                    #
+                </th> 
+                <th scope="col">
+                    Place
+                </th> 
+                <th scope="col">Description</th> 
+                <th scope="col">Date</th> 
+                <th scope="col"></th> 
+            </tr> 
+        </thead> 
+        <tbody> 
+            <% @events.each do |e| %> 
+                <tr> 
+                    <th scope="row"><%= e.id%></th> 
+                    <td><%= e.place %></td> 
+                    <td><%= e.description %></td> 
+                    <td><%= Date.parse(e.date.to_s).strftime('%a %d %b %Y') %></td> 
+                    <td><%= link_to "Voir", '', class: 'btn btn-info' %></td> 
+                </tr> 
+            <% end %> 
+        </tbody> 
+    </table> 
+</div>

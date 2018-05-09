@@ -1,0 +1,42 @@
+<% provide(:title, "Create event") %>
+ 
+ <div class="center jumbotron">
+    <h1>Créer un évènement</h1>
+ </div>
+ 
+ <div class="bg-light mt-5 p-5 offset-lg-2 col-lg-8 shadow">
+    <% if flash[:error] %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Echec!</strong> <%= flash[:error] %>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    <% end %>
+    <div class="row">
+        <div class="col-md-8 offset-2 center">
+            <%= form_for(:event, path: new_event_path) do |f| %>
+                <div class="form-group">
+                    <%= f.label :Description %>
+                    <%= f.text_area :description, class: 'form-control' %>
+                </div>
+                <div class="form-group">
+                    <%= f.label :Date %>
+                    <%= f.date_field :date, class: 'form-control' %>
+                </div>
+        
+                <div class="form-group">
+                    <%= f.label :Place %>
+                    <%= f.text_field :place, class: 'form-control' %>
+                </div>
+
+                <div class="form-group">
+                    <%= f.label :Price %>
+                    <%= f.text_field :price, class: 'form-control' %>
+                </div>
+        
+                <%= f.submit "Créer l'évènement", class: "btn btn-primary" %>
+            <% end %>
+        </div>
+    </div>
+ </div>
